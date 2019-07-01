@@ -11,27 +11,27 @@ class Edge;
 class Element;
 class Node;
 
-class Surface
+class SSAS_LIB_DECL Surface
     : public ProjectItem
 {
 public:
-  SSAS_LIB_DECL Surface();
-  SSAS_LIB_DECL Surface(const QString & name);
-  SSAS_LIB_DECL Surface(const QString & id, const QString & name);
+  Surface();
+  Surface(const QString & name);
+  Surface(const QString & id, const QString & name);
 
 public:
-  SSAS_LIB_DECL void addElement(std::unique_ptr<Element> element);
-  SSAS_LIB_DECL void addNode(std::unique_ptr<Node> node);
-  SSAS_LIB_DECL Edge * edge(std::size_t index);
-  SSAS_LIB_DECL const Edge * edge(std::size_t index) const;
-  SSAS_LIB_DECL Element * element(std::size_t index);
-  SSAS_LIB_DECL const Element * element(std::size_t index) const;
-  SSAS_LIB_DECL Node * node(std::size_t index);
-  SSAS_LIB_DECL const Node * node(std::size_t index) const;
-  SSAS_LIB_DECL void readGeomFile(const QString & fileName);
-  SSAS_LIB_DECL std::size_t totalEdges() const;
-  SSAS_LIB_DECL std::size_t totalElements() const;
-  SSAS_LIB_DECL std::size_t totalNodes() const;
+  void addElement(std::unique_ptr<Element> element);
+  void addNode(std::unique_ptr<Node> node);
+  Edge * edge(std::size_t index);
+  const Edge * edge(std::size_t index) const;
+  Element * element(std::size_t index);
+  const Element * element(std::size_t index) const;
+  Node * node(std::size_t index);
+  const Node * node(std::size_t index) const;
+  void readGeomFile(const QString & fileName);
+  std::size_t totalEdges() const;
+  std::size_t totalElements() const;
+  std::size_t totalNodes() const;
 
 protected:
   bool loadAttributes(QXmlStreamReader & reader) override;

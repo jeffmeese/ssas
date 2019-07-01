@@ -4,13 +4,13 @@
 #include "ssas.h"
 #include "projectitem.h"
 
-class Treatment
+class SSAS_LIB_DECL Treatment
     : public ProjectItem
 {
 public:
-  SSAS_LIB_DECL Treatment();
-  SSAS_LIB_DECL Treatment(const QString & name);
-  SSAS_LIB_DECL Treatment(const QString & id, const QString & name);
+  Treatment();
+  Treatment(const QString & name);
+  Treatment(const QString & id, const QString & name);
 
 protected:
   bool loadAttributes(QXmlStreamReader & reader) override;

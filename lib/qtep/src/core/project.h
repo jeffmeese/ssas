@@ -18,7 +18,7 @@ class QTEP_LIB_DECL Project
 
 public:
   Project();
-  ~Project();
+  virtual ~Project();
 
 public:
   QString fileName() const;
@@ -50,8 +50,28 @@ signals:
   void nameChanged(const QString & newName);
 
 private:
-  class Impl;
-  std::unique_ptr<Impl> mImpl;
+  typedef std::unique_ptr<ProjectItem> ProjectItemPtr;
+
+private:
+  bool mModified;
+  QString mFileName;
+  QString mName;
+  std::vector<ProjectItemPtr> mItems;
 };
+
+inline QString Project::fileName() const
+{
+  return mFileName;
+}
+
+inline bool Project::modified() const
+{
+  return mModified;
+}
+
+inline QString Project::name() const
+{
+  return mName;
+}
 
 #endif // PROJECT_H

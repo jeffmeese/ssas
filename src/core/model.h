@@ -11,22 +11,22 @@
 class Surface;
 class Treatment;
 
-class Model
+class SSAS_LIB_DECL Model
     : public ProjectItem
 {
   Q_OBJECT
 
 public:
-  SSAS_LIB_DECL Model();
-  SSAS_LIB_DECL virtual ~Model() override;
+  Model();
+  virtual ~Model() override;
 
 public:
-  SSAS_LIB_DECL void addSurface(std::unique_ptr<Surface> surface);
-  SSAS_LIB_DECL void addTreatment(std::unique_ptr<Treatment> treatment);
+  void addSurface(std::unique_ptr<Surface> surface);
+  void addTreatment(std::unique_ptr<Treatment> treatment);
 
 signals:
-  SSAS_LIB_DECL void surfaceAdded(Surface * surface);
-  SSAS_LIB_DECL void treatmentAdded(Treatment * treatment);
+  void surfaceAdded(Surface * surface);
+  void treatmentAdded(Treatment * treatment);
 
 protected:
   bool loadAttributes(QXmlStreamReader & reader) override;

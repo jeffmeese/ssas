@@ -9,6 +9,9 @@ class QTEP_LIB_DECL Command
     : public QUndoCommand
 {
 public:
+  virtual ~Command() override;
+
+public:
    QString commandId() const;
 
 public:

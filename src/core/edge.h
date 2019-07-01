@@ -5,16 +5,16 @@
 
 #include <vector>
 
-class Edge
+class SSAS_LIB_DECL Edge
 {
 public:
-  SSAS_LIB_DECL Edge(int id);
+  Edge(int id);
 
 public:
-  SSAS_LIB_DECL int node1() const;
-  SSAS_LIB_DECL int node2() const;
-  SSAS_LIB_DECL void setNode1(int value);
-  SSAS_LIB_DECL void setNode2(int value);
+  int node1() const;
+  int node2() const;
+  void setNode1(int value);
+  void setNode2(int value);
 
 private:
   int mId;

@@ -17,6 +17,9 @@ class QTEP_LIB_DECL ProjectItem
   Q_OBJECT
 
 public:
+  virtual ~ProjectItem();
+
+public:
   QString id() const;
   QString name() const;
   QString typeId() const;
@@ -37,6 +40,12 @@ public:
   bool saveXml(QXmlStreamWriter & writer) const;
   std::size_t totalItems() const;
 
+signals:
+  void itemAboutToBeRemoved(ProjectItem * item);
+  void itemAdded(ProjectItem * item);
+  void itemChanged();
+  void itemRemoved();
+
 protected:
   ProjectItem(const QString & typeId);
   ProjectItem(const QString & typeId, const QString & name);
@@ -49,12 +58,6 @@ protected:
 protected:
   virtual bool loadAttributes(QXmlStreamReader & reader) = 0;
   virtual bool saveAttributes(QXmlStreamWriter & writer) const = 0;
-
-signals:
-  void itemAboutToBeRemoved(ProjectItem * item);
-  void itemAdded(ProjectItem * item);
-  void itemChanged();
-  void itemRemoved();
 
 private:
   typedef std::unique_ptr<ProjectItem> ProjectItemPtr;

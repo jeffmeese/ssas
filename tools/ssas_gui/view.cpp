@@ -41,13 +41,6 @@ void View::buildAxes()
 	mRenderer->AddActor(mAxesActor);
 }
 
-void View::paintGL()
-{
-  QVTKOpenGLNativeWidget::paintGL();
-
-  mRenderer->GetRenderWindow()->Render();
-}
-
 void View::handleItemAdded(ViewItem *viewItem)
 {
   viewItem->attachToRenderer(mRenderer);
@@ -56,7 +49,9 @@ void View::handleItemAdded(ViewItem *viewItem)
 
 void View::reset()
 {
+  mRenderer->RemoveAllViewProps();
   mRenderer->ResetCamera();
+  buildAxes();
   mRenderer->GetRenderWindow()->Render();
 }
 

@@ -5,21 +5,21 @@
 
 #include <QVector>
 
-class Element
+class SSAS_LIB_DECL Element
 {
 public:
   virtual ~Element();
 
 public:
-  SSAS_LIB_DECL int edge(int index) const;
-  SSAS_LIB_DECL int node(int index) const;
-  SSAS_LIB_DECL void setEdge(int index, int value);
-  SSAS_LIB_DECL void setNode(int index, int value);
-  SSAS_LIB_DECL int totalEdges() const;
-  SSAS_LIB_DECL int totalNodes() const;
+  int edge(int index) const;
+  int node(int index) const;
+  void setEdge(int index, int value);
+  void setNode(int index, int value);
+  int totalEdges() const;
+  int totalNodes() const;
 
 public:
-  SSAS_LIB_DECL void edgeNodes(int index, int & node1, int & node2) const;
+  void edgeNodes(int index, int & node1, int & node2) const;
 
 protected:
   virtual void doEdgeNodes(int index, int & node1, int & node2) const = 0;

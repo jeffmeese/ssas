@@ -30,6 +30,10 @@ ProjectItem::ProjectItem(const QString & typeId, const QString & itemId, const Q
   setName(name);
 }
 
+ProjectItem::~ProjectItem()
+{
+}
+
 void ProjectItem::addItem(std::unique_ptr<ProjectItem> projectItem)
 {
   projectItem->setParent(this);

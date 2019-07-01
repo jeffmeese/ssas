@@ -11,6 +11,7 @@
 #include <vtkCellArray.h>
 #include <vtkCellData.h>
 #include <vtkPolyData.h>
+#include <vtkPolygon.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkPoints.h>
 #include <vtkRenderer.h>
@@ -32,7 +33,6 @@ protected:
   void doAttachToRenderer(vtkRenderer * renderer) override;
 
 private:
-  vtkCell* createCell(Element * element);
   void createElements();
   void createNodes();
 

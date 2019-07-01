@@ -2,8 +2,9 @@
 #include "ui_mainwindow.h"
 
 #include "application.h"
-#include "project.h"
+#include "edge.h"
 #include "node.h"
+#include "project.h"
 #include "surface.h"
 #include "triangle.h"
 #include "viewmodel.h"
@@ -34,7 +35,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::handleAddSurface()
 {
-  QString fileName("D:\\work\\gdais\\projects\\models\\carlos\\ddart\\ddart-small\\model\\ddart.geom");
+  QString fileName("c:\\users\\jmeese\\desktop\\test.geom");
 
   Project * project = mApplication.project();
   std::unique_ptr<Surface> surface(new Surface);

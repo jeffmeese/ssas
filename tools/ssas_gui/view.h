@@ -25,9 +25,6 @@ public:
   void reset();
   void setModel(ViewModel * viewModel);
 
-protected:
-  void paintGL() override;
-
 private slots:
   void handleItemAdded(ViewItem * viewItem);
 

@@ -5,6 +5,9 @@ project(ssas CXX)
 # Define options
 option(SSAS_BUILD_SHARED "Set to ON to build as a shared library" ON)
 
+# Set policies
+cmake_policy(SET CMP0020 NEW)
+
 # Set target name
 set(TARGET_NAME ssas)
 
@@ -14,12 +17,10 @@ if (SSAS_BUILD_SHARED)
   set(BUILD_TYPE SHARED)
 endif()
 
-# Set policies
-cmake_policy(SET CMP0020 NEW)
-
-# Find packages
+# Find Qtep
 set(QTEP_LIBS qtep)
 
+# Find Qt
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
@@ -55,12 +56,14 @@ if (SSAS_BUILD_SHARED)
   target_compile_definitions(${TARGET_NAME} PRIVATE -DSSAS_COMPILE_LIBRARY)
 endif()
 
+target_compile_definitions(${TARGET_NAME} PUBLIC -DQTEP_USE_LIBRARY)
+
 # Specify target include directories
 target_include_directories(${TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(${TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/core)
 
 # Specify target link libraries
 target_link_libraries(${TARGET_NAME} ${QTEP_LIBS})
-target_link_libraries(${TARGET_NAME} Qt5::Core)
-target_link_libraries(${TARGET_NAME} Qt5::Gui)
-target_link_libraries(${TARGET_NAME} Qt5::Widgets)
+#target_link_libraries(${TARGET_NAME} Qt5::Core)
+#target_link_libraries(${TARGET_NAME} Qt5::Gui)
+#target_link_libraries(${TARGET_NAME} Qt5::Widgets)

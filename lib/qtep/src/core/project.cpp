@@ -4,163 +4,25 @@
 #include <QFile>
 #include <QDebug>
 
-class Project::Impl
-{
-  friend class Project;
-
-public:
-  Impl();
-
-public:
-  QString fileName() const;
-  bool modified() const;
-  QString name() const;
-  void setModified(bool modified = true);
-  void setName(const QString & name);
-
-public:
-  void addItem(std::unique_ptr<ProjectItem> item);
-  ProjectItem * findItem(const QString & itemId);
-  const ProjectItem * findItem(const QString & itemId) const;
-  QList<ProjectItem*> findItems(const QString & name) const;
-  ProjectItem * itemAt(std::size_t index);
-  const ProjectItem * itemAt(std::size_t index) const;
-  bool load(const QString & fileName);
-  bool loadXml(QXmlStreamReader & reader);
-  void newProject();
-  bool removeItem(const QString & itemId);
-  bool save(const QString & fileName);
-  bool saveXml(QXmlStreamWriter & writer) const;
-  std::size_t totalItems() const;
-
-private:
-  typedef std::unique_ptr<ProjectItem> ProjectItemPtr;
-
-private:
-  bool mModified;
-  QString mFileName;
-  QString mName;
-  std::vector<ProjectItemPtr> mItems;
-  Project * mProject;
-};
-
 Project::Project()
-  : mImpl(new Impl)
-{
-  mImpl->mProject = this;
-}
-
-Project::~Project()
-{
-
-}
-
-QString Project::fileName() const
-{
-  return mImpl->mFileName;
-}
-
-bool Project::modified() const
-{
-  return mImpl->mModified;
-}
-
-QString Project::name() const
-{
-  return mImpl->mName;
-}
-
-void Project::addItem(std::unique_ptr<ProjectItem> item)
-{
-  mImpl->addItem(std::move(item));
-}
-
-ProjectItem * Project::findItem(const QString & itemId)
-{
-  return mImpl->findItem(itemId);
-}
-
-const ProjectItem * Project::findItem(const QString & itemId) const
-{
-  return mImpl->findItem(itemId);
-}
-
-QList<ProjectItem*> Project::findItems(const QString & name) const
-{
-  return mImpl->findItems(name);
-}
-
-ProjectItem * Project::itemAt(std::size_t index)
-{
-  return mImpl->itemAt(index);
-}
-
-const ProjectItem * Project::itemAt(std::size_t index) const
-{
-  return mImpl->itemAt(index);
-}
-
-bool Project::load(const QString & fileName)
-{
-  return mImpl->load(fileName);
-}
-
-bool Project::loadXml(QXmlStreamReader & reader)
-{
-  return mImpl->loadXml(reader);
-}
-
-void Project::newProject()
-{
-  mImpl->newProject();
-}
-
-bool Project::removeItem(const QString & itemId)
-{
-  return mImpl->removeItem(itemId);
-}
-
-bool Project::save(const QString & fileName)
-{
-  return mImpl->save(fileName);
-}
-
-bool Project::saveXml(QXmlStreamWriter & writer) const
-{
-  return mImpl->saveXml(writer);
-}
-
-void Project::setModified(bool modified)
-{
-  mImpl->setModified(modified);
-}
-
-void Project::setName(const QString & name)
-{
-  mImpl->setName(name);
-}
-
-std::size_t Project::totalItems() const
-{
-  return mImpl->totalItems();
-}
-
-// Private Implementation
-Project::Impl::Impl()
   : mModified(false)
   , mName("Project")
 {
 }
 
-void Project::Impl::addItem(std::unique_ptr<ProjectItem> projectItem)
+Project::~Project()
 {
-  projectItem->setProject(mProject);
+}
+
+void Project::addItem(std::unique_ptr<ProjectItem> projectItem)
+{
+  projectItem->setProject(this);
   mItems.push_back(std::move(projectItem));
-  emit mProject->itemAdded(mItems.back().get());
+  emit itemAdded(mItems.back().get());
   setModified();
 }
 
-ProjectItem * Project::Impl::findItem(const QString & itemId)
+ProjectItem * Project::findItem(const QString & itemId)
 {
   for (std::vector<ProjectItemPtr>::iterator itr = mItems.begin(); itr != mItems.end(); ++itr) {
     if (itr->get()->id() == itemId) {
@@ -170,7 +32,7 @@ ProjectItem * Project::Impl::findItem(const QString & itemId)
   return nullptr;
 }
 
-const ProjectItem * Project::Impl::findItem(const QString & itemId) const
+const ProjectItem * Project::findItem(const QString & itemId) const
 {
   for (std::vector<ProjectItemPtr>::const_iterator itr = mItems.begin(); itr != mItems.end(); ++itr) {
     if (itr->get()->id() == itemId) {
@@ -180,7 +42,7 @@ const ProjectItem * Project::Impl::findItem(const QString & itemId) const
   return nullptr;
 }
 
-QList<ProjectItem*> Project::Impl::findItems(const QString & name) const
+QList<ProjectItem*> Project::findItems(const QString & name) const
 {
   QList<ProjectItem*> items;
   for (std::vector<ProjectItemPtr>::const_iterator itr = mItems.begin(); itr != mItems.end(); ++itr) {
@@ -191,17 +53,17 @@ QList<ProjectItem*> Project::Impl::findItems(const QString & name) const
   return items;
 }
 
-ProjectItem * Project::Impl::itemAt(std::size_t index)
+ProjectItem * Project::itemAt(std::size_t index)
 {
   return mItems.at(index).get();
 }
 
-const ProjectItem * Project::Impl::itemAt(std::size_t index) const
+const ProjectItem * Project::itemAt(std::size_t index) const
 {
   return mItems.at(index).get();
 }
 
-bool Project::Impl::load(const QString & fileName)
+bool Project::load(const QString & fileName)
 {
   mFileName = QString();
 
@@ -220,12 +82,12 @@ bool Project::Impl::load(const QString & fileName)
   return true;
 }
 
-bool Project::Impl::loadXml(QXmlStreamReader & reader)
+bool Project::loadXml(QXmlStreamReader & reader)
 {
   return !reader.hasError();
 }
 
-void Project::Impl::newProject()
+void Project::newProject()
 {
   mName = QString();
   mFileName = QString();
@@ -233,13 +95,13 @@ void Project::Impl::newProject()
   setModified(false);
 }
 
-bool Project::Impl::removeItem(const QString & itemId)
+bool Project::removeItem(const QString & itemId)
 {
   for (std::vector<ProjectItemPtr>::iterator itr = mItems.begin(); itr != mItems.end(); ++itr) {
     if (itr->get()->id() == itemId) {
-      emit mProject->itemAboutToBeRemoved(itr->get());
+      emit itemAboutToBeRemoved(itr->get());
       mItems.erase(itr);
-      emit mProject->itemRemoved();
+      emit itemRemoved();
       setModified();
       return true;
     }
@@ -247,7 +109,7 @@ bool Project::Impl::removeItem(const QString & itemId)
   return false;
 }
 
-bool Project::Impl::save(const QString & fileName)
+bool Project::save(const QString & fileName)
 {
   mFileName = QString();
 
@@ -270,7 +132,7 @@ bool Project::Impl::save(const QString & fileName)
   return true;
 }
 
-bool Project::Impl::saveXml(QXmlStreamWriter & writer) const
+bool Project::saveXml(QXmlStreamWriter & writer) const
 {
   writer.writeStartElement("Project");
   for (std::size_t i = 0; i < mItems.size(); i++) {
@@ -281,20 +143,20 @@ bool Project::Impl::saveXml(QXmlStreamWriter & writer) const
   return !writer.hasError();
 }
 
-void Project::Impl::setModified(bool value)
+void Project::setModified(bool value)
 {
   mModified = value;
-  emit mProject->modified(value);
+  emit modified(value);
 }
 
-void Project::Impl::setName(const QString & name)
+void Project::setName(const QString & name)
 {
   mName = name;
-  emit mProject->nameChanged(name);
+  emit nameChanged(name);
   setModified();
 }
 
-std::size_t Project::Impl::totalItems() const
+std::size_t Project::totalItems() const
 {
   return mItems.size();
 }

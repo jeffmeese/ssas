@@ -1,6 +1,7 @@
 #include "model.h"
 
 #include "element.h"
+#include "edge.h"
 #include "node.h"
 #include "surface.h"
 #include "treatment.h"

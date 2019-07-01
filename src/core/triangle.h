@@ -6,11 +6,11 @@
 
 #include <vector>
 
-class Triangle
+class SSAS_LIB_DECL Triangle
     : public Element
 {
 public:
-  SSAS_LIB_DECL Triangle(int id);
+  Triangle(int id);
 
 protected:
   void doEdgeNodes(int index, int & node1, int & node2) const override;

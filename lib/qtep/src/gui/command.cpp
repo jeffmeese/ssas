@@ -5,6 +5,11 @@ Command::Command(const QString & id)
 {
 }
 
+Command::~Command()
+{
+
+}
+
 QString Command::commandId() const
 {
   return mId;
